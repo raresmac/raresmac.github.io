@@ -1,11 +1,13 @@
 ---
 layout: default
 modal-id: 6
-date: 2014-07-15
-img: submarine.png
+date: 2022-01-10
+img: ElectronicCircuits.webp
+title: Electronic Circuits
 alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
-category: Web Development
-description: Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+project-date: January 2022
+client: Graphics
+category: C++ Development
+description: A program that enables the creation and editing of electronic circuits using a GUI.<br><font color="#2900FF"><a href="https://github.com/raresmac/ElectronicCircuits">Github Repo</a>
+
 ---

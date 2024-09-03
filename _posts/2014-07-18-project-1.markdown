@@ -1,11 +1,13 @@
 ---
 layout: default
 modal-id: 1
-date: 2014-07-18
-img: cabin.png
+date: 2024-07-31
+img: PaintGuesser.webp
+title: PaintGuesser
 alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
-category: Web Development
-description: Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+project-date: July 2024
+client: Android
+category: Mobile/Game Development
+description: PaintGuesser allows you to master all the details of the most important paintings in history. You will learn the name,of the painting, the painter, the year, the movement and the location, all within the 50 chapters of the game. These 50 chapters contain 500+ paintings from 260+ painters and 50+ movements, all in the palm of your hand.<br><br>Because it is an offline game, you can take your learning to new heights in any place you want, without the need of the Internet. With each masterpiece discovered, you build on completing the mosaic found on the home page. Become a master of the arts!<br><br>It was developed using Unity engine for Android phones. Coming soon to Google Play!<br><a href="https://play.google.com/store/apps/details?id=com.NamelessRose.PaintGuesser">Google Play Future Link</a>
+
 ---

@@ -1,11 +1,13 @@
 ---
 layout: default
 modal-id: 4
-date: 2014-07-15
-img: game.png
+date: 2023-01-10
+img: PyChess.webp
+title: PyChess
 alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
-category: Web Development
-description: Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+project-date: January 2024
+client: Python
+category: Python Development
+description: PyChess is a chess client written in Python. It has all the rules of chess (including en passant) and the ability to play against a computer with random moves or against another human locally. It was written using pygame package, but everything about chess has been implemented from scratch.<br><a href="https://github.com/raresmac/PyChess">Github Repo</a>
+
 ---

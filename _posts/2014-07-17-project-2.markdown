@@ -1,11 +1,13 @@
 ---
 layout: default
 modal-id: 2
-date: 2014-07-17
-img: cake.png
+date: 2024-05-20
+img: MementoVivere.webp
+title: Memento Vivere
 alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
-category: Web Development
-description: Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+project-date: April 2024
+client: Virtual Reality
+category: VR Development
+description: Memento Vivere is a virtual reality game meant to showcase the diversity of mechanics in such an environment while protecting the user from various negative effects commonly associated with virtual reality and video games. <br><br> Developed for my Bachelor's Degree in Romania. Tested on different subjects using a modified version of the Sickness Simulator Questionnaire.<br><br>It was developed for Meta (Oculus) Quest 2 using Unity engine.<br><a href="https://github.com/raresmac/Teme-IMR2023">Github Repo</a>
+
 ---

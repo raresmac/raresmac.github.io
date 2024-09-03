@@ -1,11 +1,13 @@
 ---
 layout: default
 modal-id: 5
-date: 2014-07-14
-img: safe.png
+date: 2023-01-10
+img: ReadsProfiler.webp
+title: Reads Profiler
 alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
-category: Web Development
-description: Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+project-date: January 2023
+client: Console
+category: C Development
+description: ReadsProfiler is an application that uses multithreading for processing a number of clients. It will create a profile for every user and they will be able to add to their personal library in different shelves ("Reading", "Read", "Dropped", "Planning to read") and other info (ex. a review). After more reviews, each user will have a profile on which they will get recommended books based on what they have already read. Also, the user can search for a book (name or ISBN), author, genre or, as an admin, they can add books, authors, and any other info through an intuitive console.<br><a href="https://github.com/raresmac/ReadsProfiler">Github Repo</a>
+
 ---

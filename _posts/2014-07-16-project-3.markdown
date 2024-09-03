@@ -1,11 +1,13 @@
 ---
 layout: default
 modal-id: 3
-date: 2014-07-16
-img: circus.png
+date: 2023-05-20
+img: WordGuesser.webp
+title: Word Guesser
 alt: image-alt
-project-date: April 2014
-client: Start Bootstrap
+project-date: April 2023
+client: Browser
 category: Web Development
-description: Use this area of the page to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.
+description: Word Guesser is a Wordle clone written in PHP, CSS and javascript.<br><a href="https://github.com/raresmac/WordGuesser">Github Repo</a>
+
 ---
