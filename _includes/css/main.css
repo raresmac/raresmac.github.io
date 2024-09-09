@@ -36,6 +36,16 @@ h6 {
     font-weight: 700;
 }
 
+.title-size{
+    font-size: 12px;
+}
+
+@media screen and (max-width: 800px) {
+    .title-size{
+        font-size: 10px;
+    }
+}
+
 hr.star-light,
 hr.star-primary {
     margin: 25px auto 30px;
