@@ -2,7 +2,7 @@
 layout: default
 modal-id: 6
 date: 2022-01-10
-img: ElectronicCircuits.webp
+img: ElectronicCircuit.png
 title: Electronic Circuits
 alt: image-alt
 project-date: January 2022
