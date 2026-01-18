@@ -1,0 +1,115 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_theme" IsDarkMode="true" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <div class="modern-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+<style>
+    :root {
+        --primary: #00E5FF;
+        --secondary: #7000FF;
+    }
+
+    body {
+        background-color: #050505;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    .modern-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+    }
+
+    .blob {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.1;
+        animation: float 20s infinite alternate;
+    }
+
+    .blob-1 {
+        background: var(--primary);
+        top: -10%;
+        left: -5%;
+    }
+
+    .blob-2 {
+        background: var(--secondary);
+        bottom: -10%;
+        right: -5%;
+    }
+
+    .blob-3 {
+        background: #3d44f8;
+        top: 40%;
+        left: 30%;
+    }
+
+    @@keyframes float {
+        from {
+            transform: translate(0, 0) scale(1);
+        }
+
+        to {
+            transform: translate(100px, 50px) scale(1.1);
+        }
+    }
+
+    .mud-main-content {
+        background: transparent !important;
+    }
+
+    /* Custom scrollbar for a sleek look */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #050505;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #222;
+        border-radius: 10px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+</style>
+
+@code {
+    private MudTheme _theme = new MudTheme()
+    {
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#00E5FF",
+            Secondary = "#7000FF",
+            Surface = "#111111",
+            Background = "#050505"
+        }
+    };
+}

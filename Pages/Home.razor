@@ -1,0 +1,357 @@
+﻿@page "/"
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject IJSRuntime JSRuntime
+
+<!-- 1. TOP-RIGHT ORNAMENTAL TOOLBAR -->
+<div class="top-right-toolbar d-none d-md-flex">
+    <div class="status-indicator">
+        <div class="status-dot"></div>
+        <MudText Typo="Typo.caption" Class="status-text">AVAILABLE FOR HIRE</MudText>
+    </div>
+    <MudDivider Vertical="true" FlexItem="true" Class="mx-4 my-2 opacity-10" />
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" StartIcon="@Icons.Material.Filled.Download" Class="rounded-pill" Href="personal/Rares_Stefan_Macovei_SE.pdf" Target="_blank">Download CV</MudButton>
+</div>
+
+<!-- 2. SIDEBAR NAVIGATION -->
+<nav class="sidebar-nav d-none d-md-flex">
+    <div class="nav-glass">
+        <div class="nav-item-wrapper">
+            <MudTooltip Text="About" Placement="Placement.Right">
+                <MudIconButton Icon="@Icons.Material.Filled.Person" Color="Color.Primary" OnClick="@(() => ScrollTo("home"))" />
+            </MudTooltip>
+        </div>
+        
+        <div class="nav-sep"></div>
+
+        @foreach (var cat in Categories)
+        {
+            <div class="nav-item-wrapper" @key="cat">
+                <MudTooltip Text="@cat" Placement="Placement.Right">
+                    <MudIconButton Icon="@GetIcon(cat)" Size="Size.Small" Class="nav-dot" OnClick="@(() => ScrollTo(cat))" />
+                </MudTooltip>
+            </div>
+        }
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-item-wrapper">
+            <MudTooltip Text="Contact" Placement="Placement.Right">
+                <MudIconButton Icon="@Icons.Material.Filled.Email" Color="Color.Secondary" OnClick="@(() => ScrollTo("contact"))" />
+            </MudTooltip>
+        </div>
+    </div>
+</nav>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="main-container">
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero-section">
+        <div class="d-flex align-center justify-space-between flex-wrap gap-12">
+            <div class="hero-content">
+                <MudText Typo="Typo.h1" Class="hero-text">RARES<span class="text-grad">MACOVEI</span></MudText>
+                <MudText Typo="Typo.h5" Color="Color.Secondary" Class="mb-2 fw-300">Software Engineer & Digital Architect</MudText>
+                
+                <div class="d-flex gap-8 mt-4 hero-stats">
+                    <div class="stat-item">
+                        <MudText Typo="Typo.h6" Color="Color.Primary">5+</MudText>
+                        <MudText Typo="Typo.caption">Years C#</MudText>
+                    </div>
+                    <div class="stat-item">
+                        <MudText Typo="Typo.h6" Color="Color.Primary">20+</MudText>
+                        <MudText Typo="Typo.caption">Live Projects</MudText>
+                    </div>
+                    <div class="stat-item">
+                        <MudText Typo="Typo.h6" Color="Color.Primary">Unity</MudText>
+                        <MudText Typo="Typo.caption">Expert</MudText>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-4 mt-8">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => ScrollTo(Categories.First()))" Class="rounded-pill px-8">View Portfolio</MudButton>
+                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/raresmac" Target="_blank" />
+                    <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Href="https://linkedin.com/in/rares-stefan-macovei-0220541b5" Target="_blank" />
+                </div>
+            </div>
+
+            <div class="hero-photo-container d-none d-lg-block">
+                <div class="photo-glow-wrapper">
+                    <img src="personal/Photo.jpg" alt="Profile" class="profile-photo" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @foreach (var category in Categories)
+    {
+        var categoryProjects = Projects.Where(p => p.Category == category).ToList();
+        if (!categoryProjects.Any()) continue;
+
+        <section id="@category" class="tech-section" @key="category">
+            <div class="category-header-box">
+                <MudText Typo="Typo.h3" Align="Align.Center" Class="category-main-title">@category</MudText>
+                <div class="category-glow-line"></div>
+            </div>
+
+            @if (categoryProjects.Count >= 4)
+            {
+                <!-- MODE A: 3D LERP WHEEL (4+ Projects) -->
+                <div class="wheel-wrapper">
+                    <div class="scroll-arrow-left">
+                        <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" Color="Color.Primary" OnClick="@(() => StepScroll(category, -1))" Class="arrow-glass-btn" />
+                    </div>
+
+                    <div class="wheel-container" id="scroll-@category">
+                        <div class="wheel-track">
+                            @for (int i = 0; i < 3; i++)
+                            {
+                                @foreach (var proj in categoryProjects)
+                                {
+                                    <div class="wheel-item" @onclick="@(async (e) => await SmartFocusAndOpen(proj, category))">
+                                        <MudCard Class="project-window-card">
+                                            <MudCardMedia Image="@proj.ImageUrl" Height="180" />
+                                            <MudCardContent>
+                                                <MudText Typo="Typo.h6" Class="text-truncate">@proj.Title</MudText>
+                                                <div class="d-flex flex-wrap gap-2 mt-1">
+                                                    @foreach (var tag in proj.Tags)
+                                                    {
+                                                        <span class="mini-tag">@tag</span>
+                                                    }
+                                                </div>
+                                            </MudCardContent>
+                                        </MudCard>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="scroll-arrow-right">
+                        <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" Color="Color.Primary" OnClick="@(() => StepScroll(category, 1))" Class="arrow-glass-btn" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- MODE B: STATIC CENTERED GRID (Less than 4 Projects) -->
+                <div class="static-grid-container py-12">
+                    <MudGrid Justify="Justify.Center" Spacing="8">
+                        @foreach (var proj in categoryProjects)
+                        {
+                            <MudItem xs="12" sm="6" md="4" lg="3">
+                                <div class="static-card-wrapper" @onclick="@(() => OpenDetails(proj))">
+                                    <MudCard Class="project-window-card static-hover">
+                                        <MudCardMedia Image="@proj.ImageUrl" Height="180" />
+                                        <MudCardContent>
+                                            <MudText Typo="Typo.h6">@proj.Title</MudText>
+                                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                                @foreach (var tag in proj.Tags)
+                                                {
+                                                    <span class="mini-tag">@tag</span>
+                                                }
+                                            </div>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </div>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </div>
+            }
+        </section>
+    }
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-section mb-16">
+        <div class="glass-card pa-12 text-center">
+            <MudText Typo="Typo.h3" Class="mb-4 fw-800">Ready to collaborate?</MudText>
+            <div class="d-flex justify-center align-center gap-4 mb-10">
+                <MudText Typo="Typo.h5" Color="Color.Primary">raresmac1@@gmail.com</MudText>
+                <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Inherit" OnClick="CopyEmail" />
+            </div>
+            <div class="d-flex justify-center gap-6">
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Size="Size.Large" Color="Color.Inherit" Href="https://github.com/raresmac" Target="_blank" />
+                <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Large" Color="Color.Inherit" Href="https://linkedin.com/in/rares-stefan-macovei-0220541b5" Target="_blank" />
+                <MudIconButton Icon="@Icons.Custom.Brands.YouTube" Size="Size.Large" Color="Color.Inherit" Href="https://www.youtube.com/%40MacoPlay03" Target="_blank" />
+            </div>
+        </div>
+    </section>
+</MudContainer>
+
+<style>
+    /* Top UI */
+    .top-right-toolbar { position: fixed; top: 2rem; right: 3rem; z-index: 1000; align-items: center; }
+    .status-indicator { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+    .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
+    .status-text { letter-spacing: 1px; font-weight: 600; font-size: 0.7rem; }
+
+    /* Sidebar Navigation (Centering Fixed) */
+    .sidebar-nav { position: fixed; left: 1rem; top: 0; height: 100vh; display: flex; align-items: center; z-index: 1000; }
+    .nav-glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; padding: 1rem 0.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+    .nav-item-wrapper { width: 100%; display: flex; justify-content: center; }
+    .nav-sep { width: 15px; height: 1px; background: rgba(255,255,255,0.1); margin: 0.4rem auto; }
+
+    /* Hero Section */
+    .main-container { padding-left: 6rem; transition: padding 0.3s; }
+    section { padding: 1rem 0; }
+    .hero-section { min-height: 45vh; display: flex; flex-direction: column; justify-content: center; }
+    .hero-text { font-weight: 900; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -2px; line-height: 1; }
+    .text-grad { background: linear-gradient(90deg, #00E5FF, #7000FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-stats { border-left: 2px solid var(--mud-palette-primary); padding-left: 1.5rem; }
+    .stat-item { display: flex; flex-direction: column; }
+
+    /* Morphing Photo */
+    .hero-photo-container { position: relative; }
+    .photo-glow-wrapper { position: relative; padding: 10px; background: linear-gradient(135deg, var(--mud-palette-primary), var(--mud-palette-secondary)); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; animation: morph 15s ease-in-out infinite; box-shadow: 0 10px 40px rgba(0, 229, 255, 0.3); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .profile-photo { width: 220px; height: 220px; object-fit: cover; border-radius: inherit; filter: grayscale(20%); transition: filter 0.5s ease; }
+    .photo-glow-wrapper:hover { transform: scale(1.05) rotate(2deg); box-shadow: 0 15px 55px rgba(0, 229, 255, 0.5); filter: grayscale(0%); }
+    @@keyframes morph { 0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; } 50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; } }
+
+    /* Chapter Headers */
+    .category-header-box { width: 100%; display: flex; flex-direction: column; align-items: center; margin-bottom: 0.5rem; }
+    .category-main-title { font-weight: 800; text-transform: uppercase; letter-spacing: 4px; opacity: 0.9; }
+    .category-glow-line { width: 80px; height: 3px; background: var(--mud-palette-primary); box-shadow: 0 0 15px var(--mud-palette-primary); margin-top: 10px; border-radius: 2px; }
+
+    /* Scroll Engine Wheel */
+    .wheel-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
+    .wheel-container { overflow-x: hidden; padding: 3rem 0; perspective: 2500px; width: 100%; mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
+    .wheel-track { display: flex; gap: 4.5rem; padding: 0 42%; transform-style: preserve-3d; }
+    .wheel-item { min-width: 310px; transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.6s ease, filter 0.6s ease; transform-style: preserve-3d; cursor: pointer; opacity: 0.1; filter: blur(0.6px); transform: translate3d(0,0,0) rotateY(var(--rot, 0deg)) scale(var(--scale, 0.8)); }
+    .wheel-item.active { opacity: 1 !important; filter: blur(0px) !important; z-index: 10; }
+    
+    /* Card Polish */
+    .project-window-card { background: rgba(255,255,255,0.04) !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 14px !important; box-shadow: 0 20px 50px rgba(0,0,0,0.6) !important; transition: all 0.4s ease !important; }
+    .wheel-item.active .project-window-card, .static-hover:hover { border-color: var(--mud-palette-primary) !important; transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0, 229, 255, 0.2) !important; }
+
+    .static-card-wrapper { cursor: pointer; }
+
+    /* Navigation UI */
+    .scroll-arrow-left, .scroll-arrow-right { position: absolute; top: 50%; transform: translateY(-50%); z-index: 100; }
+    .scroll-arrow-left { left: 0.5rem; }
+    .scroll-arrow-right { right: 0.5rem; }
+    .arrow-glass-btn { background: rgba(255,255,255,0.08) !important; backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 50% !important; }
+
+    @@media (max-width: 960px) { .main-container { padding-left: 1rem; padding-right: 1rem; } .wheel-container { overflow-x: auto; scroll-snap-type: x mandatory; } .wheel-track { padding: 0 5%; gap: 1.5rem; } .wheel-item { min-width: calc(100vw - 3.5rem); scroll-snap-align: center; opacity: 1; filter: none; } .scroll-arrow-left, .scroll-arrow-right, .top-right-toolbar, .hero-photo-container { display: none; } }
+
+    .mini-tag { font-size: 0.6rem; background: rgba(0, 229, 255, 0.1); color: #00E5FF; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0, 229, 255, 0.2); }
+    .glass-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; backdrop-filter: blur(10px); }
+</style>
+
+@code {
+    List<string> Categories = new() { "Web", "C#", "Python", "VR", "C++" };
+    List<Project> Projects = new();
+
+    protected override void OnInitialized()
+    {
+        // WEB
+        Projects.Add(new Project { Title = "Lools", Category = "Web", Description = "Master the Rift with professional-grade cooldown management.", ImageUrl = "images/web/lools.webp", GithubUrl = "https://github.com/raresmac/Lools", ExternalUrl = "https://raresmac.github.io/Lools/", Tags = new() { "Web", "Blazor", "C#" } });
+        Projects.Add(new Project { Title = "FM26 Tactics", Category = "Web", Description = "Master the pitch with the world's best tactical setups.", ImageUrl = "images/web/fm26-tactics.webp", GithubUrl = "https://github.com/raresmac/FM26-Tactics", ExternalUrl = "https://raresmac.github.io/FM26-Tactics/", Tags = new() { "Web", "Blazor", "C#" } });
+        Projects.Add(new Project { Title = "BalatroHub", Category = "Web", Description = "This is the ultimate curated repository for mastering the world's most addictive roguelike poker.", ImageUrl = "images/web/balatrohub.webp", GithubUrl = "https://github.com/raresmac/BalatroHub", ExternalUrl = "https://raresmac.github.io/BalatroHub/", Tags = new() { "Web", "Blazor", "C#" } });
+        
+        // C#
+        Projects.Add(new Project { Title = "PaintGuesser", Category = "C#", Description = "PaintGuesser allows you to master all the details of the most important paintings in history.", ImageUrl = "images/cs/paintguesser.webp", GithubUrl = "https://github.com/raresmac/PaintGuesser", ExternalUrl = "https://play.google.com/store/apps/details?id=com.NamelessRose.PaintGuesser", Tags = new() { "C#", "Unity", "Android" } });
+        Projects.Add(new Project { Title = "ARt", Category = "C#", Description = "An AR application for Android for recognizing paintings.", ImageUrl = "images/cs/art.webp", GithubUrl = "https://github.com/raresmac/ARt", Tags = new() { "C#", "Unity", "Android" } });
+        
+        // PYTHON
+        Projects.Add(new Project { Title = "LOL Predictor", Category = "Python", Description = "Neural network trained to predict match outcomes based on lineups.", ImageUrl = "images/python/lol_predictor.webp", GithubUrl = "https://github.com/raresmac/LOL_Predictor", Tags = new() { "Python", "ML", "Gaming" } });
+        Projects.Add(new Project { Title = "PyChess", Category = "Python", Description = "A simple chess game made with PyGame.", ImageUrl = "images/python/pychess.webp", GithubUrl = "https://github.com/raresmac/PyChess", Tags = new() { "Python", "Chess", "Gaming" } });
+        Projects.Add(new Project { Title = "ScanItUp", Category = "Python", Description = "Document scanner that parses text from images.", ImageUrl = "images/python/scanitup.webp", GithubUrl = "https://github.com/raresmac/ScanItUp", Tags = new() { "Python", "Utilities" } });
+        
+        // VR
+        Projects.Add(new Project { Title = "Memento Vivere", Category = "VR", Description = "VR game showcasing diverse mechanics and comfort protections.", ImageUrl = "images/vr/memento_vivere.webp", VideoId = "LEZrbjUFSUQ", Tags = new() { "VR", "Unity", "C#" } });
+        
+        // C++
+        Projects.Add(new Project { Title = "ReadsProfiler", Category = "C++", Description = "Faculty project for hosting a personal digital library.", ImageUrl = "images/cpp/readsprofiler.webp", GithubUrl = "https://github.com/raresmac/ReadsProfiler", Tags = new() { "C++", "Graphics", "Books" } });
+        Projects.Add(new Project { Title = "Electronic Circuits", Category = "C++", Description = "Creation and editing tool for electronic circuits.", ImageUrl = "images/cpp/electronic_circuits.webp", GithubUrl = "https://github.com/raresmac/Electronic_Circuits", Tags = new() { "C++", "Graphics", "Electronics" } });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("eval", @"
+                window.scrollState = {};
+                const lerp = (start, end, factor) => start + (end - start) * factor;
+
+                const updateVisuals = (container) => {
+                    const items = container.querySelectorAll('.wheel-item');
+                    if(!items.length) return;
+                    const cRect = container.getBoundingClientRect();
+                    const cCenter = cRect.left + cRect.width / 2;
+                    items.forEach((item) => {
+                        const iRect = item.getBoundingClientRect();
+                        const iCenter = iRect.left + iRect.width / 2;
+                        const dist = iCenter - cCenter;
+                        const relDist = dist / (cRect.width / 2);
+                        if (window.innerWidth >= 960) {
+                            let angle = relDist * -50;
+                            let scale = 1.15 - (Math.abs(relDist) * 0.25);
+                            let opacity = Math.max(1 - Math.abs(relDist) * 0.8, 0.1);
+                            let blur = Math.min(Math.abs(relDist) * 0.6, 0.6);
+                            item.style.setProperty('--rot', angle + 'deg');
+                            item.style.setProperty('--scale', scale);
+                            item.style.opacity = opacity;
+                            item.style.filter = `blur(${blur}px)`;
+                            item.classList.toggle('active', Math.abs(relDist) < 0.3);
+                        }
+                    });
+                };
+
+                const animate = () => {
+                    Object.keys(window.scrollState).forEach(id => {
+                        const state = window.scrollState[id];
+                        const el = document.getElementById(id);
+                        if (!el) return;
+                        state.current = lerp(state.current, state.target, 0.08);
+                        el.scrollLeft = state.current;
+                        const total = el.scrollWidth;
+                        const buffer = total * 0.2;
+                        if (state.current < buffer) { state.current += buffer; state.target += buffer; }
+                        else if (state.current > total * 0.8) { state.current -= buffer; state.target -= buffer; }
+                        updateVisuals(el);
+                    });
+                    requestAnimationFrame(animate);
+                };
+
+                document.querySelectorAll('.wheel-container').forEach(container => {
+                    const id = container.id;
+                    const startPos = container.scrollWidth / 2 - container.clientWidth / 2;
+                    window.scrollState[id] = { current: startPos, target: startPos };
+                });
+                requestAnimationFrame(animate);
+
+                window.glideTo = (id, direction) => {
+                    const el = document.getElementById(id);
+                    if(!el) return;
+                    const card = el.querySelector('.wheel-item');
+                    const step = card.offsetWidth + 72;
+                    window.scrollState[id].target += (step * direction);
+                };
+
+                window.centerOnElement = (containerId, title) => {
+                    const container = document.getElementById(containerId);
+                    const items = Array.from(container.querySelectorAll('.wheel-item'));
+                    const cCenter = container.getBoundingClientRect().left + container.clientWidth / 2;
+                    const matches = items.filter(i => i.innerText.includes(title));
+                    let target = matches[0];
+                    let minDiff = Infinity;
+                    matches.forEach(m => {
+                        const diff = Math.abs((m.getBoundingClientRect().left + m.clientWidth/2) - cCenter);
+                        if (diff < minDiff) { minDiff = diff; target = m; }
+                    });
+                    if (target) {
+                        const offset = (target.offsetLeft + target.offsetWidth/2) - (container.clientWidth/2);
+                        window.scrollState[containerId].target = offset;
+                    }
+                };
+            ");
+        }
+    }
+
+    string GetIcon(string cat) => cat switch { "Web" => Icons.Material.Filled.Language, "C#" => Icons.Custom.Brands.Microsoft, "C++" => Icons.Material.Filled.Code, "Python" => Icons.Material.Filled.Code, "VR" => Icons.Material.Filled.ViewInAr, _ => Icons.Material.Filled.Code };
+    async Task StepScroll(string category, int dir) => await JSRuntime.InvokeVoidAsync("window.glideTo", $"scroll-{category}", dir);
+    async Task SmartFocusAndOpen(Project proj, string category) { await JSRuntime.InvokeVoidAsync("window.centerOnElement", $"scroll-{category}", proj.Title); await OpenDetails(proj); }
+    async Task ScrollTo(string id) => await JSRuntime.InvokeVoidAsync("eval", $"document.getElementById('{id}').scrollIntoView({{behavior: 'smooth'}})");
+    async Task CopyEmail() { await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", "raresmac1@gmail.com"); Snackbar.Add("Email Copied", Severity.Info); }
+    async Task OpenDetails(Project p) => await DialogService.ShowAsync<ProjectDialog>("", new DialogParameters { ["Project"] = p }, new DialogOptions { NoHeader = true, MaxWidth = MaxWidth.Medium, FullWidth = true });
+}

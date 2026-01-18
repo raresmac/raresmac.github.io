@@ -1,0 +1,13 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00E5FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7000FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Hexagon Outline -->
+  <path d="M256 40L450 148V364L256 472L62 364V148L256 40Z" stroke="url(#grad)" stroke-width="30" stroke-linejoin="round"/>
+  <!-- Stylized R + > -->
+  <path d="M180 160V352M180 160H260C300 160 320 180 320 210C320 240 300 260 260 260H180M260 260L330 352" stroke="url(#grad)" stroke-width="35" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M370 230L410 256L370 282" stroke="url(#grad)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
