@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject IJSRuntime JSRuntime
@@ -238,7 +238,7 @@
 </style>
 
 @code {
-    List<string> Categories = new() { "Web", "C#", "Python", "VR", "C++" };
+    List<string> Categories = new() { "Web", "C#", "Python", "Games", "VR", "C++" };
     List<Project> Projects = new();
 
     protected override void OnInitialized()
@@ -260,6 +260,10 @@
         Projects.Add(new Project { Title = "PyChess", Category = "Python", Description = "A simple chess game made with PyGame.", ImageUrl = "images/python/pychess.webp", GithubUrl = "https://github.com/raresmac/PyChess", Tags = new() { "Python", "Chess", "Gaming" } });
         Projects.Add(new Project { Title = "ScanItUp", Category = "Python", Description = "Document scanner that parses text from images.", ImageUrl = "images/python/scanitup.webp", GithubUrl = "https://github.com/raresmac/ScanItUp", Tags = new() { "Python", "Utilities" } });
         
+        // Games
+        Projects.Add(new Project { Title = "Cabineer", Category = "Games", Description = "A card game available on itch.io.", ImageUrl = "images/games/cabineer.webp", ExternalUrl = "https://raresmac.itch.io/cabineer", Tags = new() { "Games", ".NET", "C#" } });
+        Projects.Add(new Project { Title = "Dartsbox", Category = "Games", Description = "DartsBox is a multiplayer darts game for s&box. You can play 501 with friends using pro rules like double-outs, having a bunch of customizable options. The aiming takes actual skill, so you have to be precise when trying to hit triples or finish a game.", ImageUrl = "images/games/dartsbox.webp", ExternalUrl = "https://sbox.game/namelessrose/dartsbox", Tags = new() { "Games", "C#", "s&box" } });
+
         // VR
         Projects.Add(new Project { Title = "Memento Vivere", Category = "VR", Description = "VR game showcasing diverse mechanics and comfort protections.", ImageUrl = "images/vr/memento_vivere.webp", VideoId = "LEZrbjUFSUQ", Tags = new() { "VR", "Unity", "C#" } });
         
@@ -351,7 +355,7 @@
         }
     }
 
-    string GetIcon(string cat) => cat switch { "Web" => Icons.Material.Filled.Language, "C#" => Icons.Custom.Brands.Microsoft, "C++" => Icons.Material.Filled.Code, "Python" => Icons.Material.Filled.Code, "VR" => Icons.Material.Filled.ViewInAr, _ => Icons.Material.Filled.Code };
+    string GetIcon(string cat) => cat switch { "Web" => Icons.Material.Filled.Language, "C#" => Icons.Custom.Brands.Microsoft, "Games" => Icons.Material.Filled.SportsEsports, "C++" => Icons.Material.Filled.Code, "Python" => Icons.Material.Filled.Code, "VR" => Icons.Material.Filled.ViewInAr, _ => Icons.Material.Filled.Code };
     async Task StepScroll(string category, int dir) => await JSRuntime.InvokeVoidAsync("window.glideTo", $"scroll-{category}", dir);
     async Task SmartFocusAndOpen(Project proj, string category) { await JSRuntime.InvokeVoidAsync("window.centerOnElement", $"scroll-{category}", proj.Title); await OpenDetails(proj); }
     async Task ScrollTo(string id) => await JSRuntime.InvokeVoidAsync("eval", $"document.getElementById('{id}').scrollIntoView({{behavior: 'smooth'}})");
