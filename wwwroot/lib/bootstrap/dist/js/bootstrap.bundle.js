@@ -3793,7 +3793,7 @@
       }
 
       // if target isn't included in items (e.g. when expanding the dropdown)
-      // allow cycling to get the last item in case key equals ARROW_UP_KEY
+      // allow cycling to get the last item in case key ecerts ARROW_UP_KEY
       getNextActiveElement(items, target, key === ARROW_DOWN_KEY$1, !items.includes(target)).focus();
     }
 

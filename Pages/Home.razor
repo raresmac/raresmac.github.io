@@ -36,6 +36,14 @@
         <div class="nav-sep"></div>
 
         <div class="nav-item-wrapper">
+            <MudTooltip Text="Certifications" Placement="Placement.Right">
+                <MudIconButton Icon="@Icons.Material.Filled.School" Color="Color.Primary" OnClick="@(() => ScrollTo("certifications"))" />
+            </MudTooltip>
+        </div>
+
+        <div class="nav-sep"></div>
+
+        <div class="nav-item-wrapper">
             <MudTooltip Text="Contact" Placement="Placement.Right">
                 <MudIconButton Icon="@Icons.Material.Filled.Email" Color="Color.Secondary" OnClick="@(() => ScrollTo("contact"))" />
             </MudTooltip>
@@ -161,6 +169,54 @@
         </section>
     }
 
+    <!-- CERTIFICATIONS SECTION -->
+    <section id="certifications" class="certifications-section mb-12">
+        <div class="category-header-box">
+            <MudText Typo="Typo.h3" Align="Align.Center" Class="category-main-title">CERTIFICATIONS</MudText>
+            <div class="category-glow-line"></div>
+        </div>
+
+        <div class="certifications-container mt-8">
+            @foreach (var cert in Certifications)
+            {
+                <div class="certification-row">
+                    <div class="cert-icon-box">
+                        <MudIcon Icon="@Icons.Material.Filled.School" Class="cert-icon" />
+                    </div>
+                    <div class="cert-info">
+                        <div class="cert-header">
+                            <MudText Typo="Typo.h6" Class="cert-title">@cert.Title</MudText>
+                            <MudText Typo="Typo.body2" Class="cert-org text-grad">@cert.Organization</MudText>
+                        </div>
+                        <div class="cert-meta">
+                            <span class="cert-date">@cert.DateString</span>
+                            <div class="cert-skills-tags d-flex flex-wrap gap-2">
+                                @foreach (var skill in cert.Skills)
+                                {
+                                    <span class="mini-tag">@skill</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(cert.CredentialUrl))
+                    {
+                        <div class="cert-action">
+                            <MudButton Variant="Variant.Outlined" 
+                                       Color="Color.Primary" 
+                                       Size="Size.Small" 
+                                       EndIcon="@Icons.Material.Filled.ArrowOutward" 
+                                       Href="@cert.CredentialUrl" 
+                                       Target="_blank" 
+                                       Class="rounded-pill cert-btn">
+                                View Certificate
+                            </MudButton>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+
     <!-- CONTACT SECTION -->
     <section id="contact" class="contact-section mb-16">
         <div class="glass-card pa-12 text-center">
@@ -196,7 +252,7 @@
     section { padding: 1rem 0; }
     .hero-section { min-height: 45vh; display: flex; flex-direction: column; justify-content: center; }
     .hero-text { font-weight: 900; font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: -2px; line-height: 1; }
-    .text-grad { background: linear-gradient(90deg, #00E5FF, #7000FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .text-grad { background: linear-gradient(90deg, #00E5FF, #7000FF); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     .hero-stats { border-left: 2px solid var(--mud-palette-primary); padding-left: 1.5rem; }
     .stat-item { display: flex; flex-direction: column; }
 
@@ -235,11 +291,38 @@
 
     .mini-tag { font-size: 0.6rem; background: rgba(0, 229, 255, 0.1); color: #00E5FF; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(0, 229, 255, 0.2); }
     .glass-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; backdrop-filter: blur(10px); }
+
+    /* Certifications Section Styles */
+    .certifications-container { display: flex; flex-direction: column; gap: 1rem; max-width: 900px; margin: 0 auto; padding: 0 1rem; }
+    .certification-row { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem 2rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-left: 3px solid rgba(255, 255, 255, 0.1); border-radius: 12px; backdrop-filter: blur(10px); transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    .certification-row:hover { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.1); border-left: 3px solid var(--mud-palette-primary); transform: translateX(8px); box-shadow: 0 10px 30px rgba(0, 229, 255, 0.05); }
+    .cert-icon-box { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.1); border-radius: 50%; color: var(--mud-palette-primary); flex-shrink: 0; transition: all 0.3s ease; }
+    .certification-row:hover .cert-icon-box { background: rgba(0, 229, 255, 0.12); transform: scale(1.05) rotate(-5deg); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+    .cert-icon { font-size: 1.25rem !important; }
+    .cert-info { flex-grow: 1; display: flex; flex-direction: column; gap: 0.25rem; }
+    .cert-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .cert-title { font-weight: 700; letter-spacing: 0.5px; }
+    .cert-org { font-weight: 600; font-size: 0.9rem; }
+    .cert-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.25rem; }
+    .cert-date { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); font-weight: 500; }
+    .cert-skills-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .cert-action { flex-shrink: 0; }
+    .cert-btn { transition: all 0.3s ease !important; border: 1px solid rgba(0, 229, 255, 0.3) !important; color: #00E5FF !important; }
+    .certification-row:hover .cert-btn { background-color: var(--mud-palette-primary) !important; color: #000 !important; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); border-color: var(--mud-palette-primary) !important; }
+    
+    @@media (max-width: 768px) {
+        .certification-row { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem; }
+        .cert-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+        .cert-action { width: 100%; }
+        .cert-btn { width: 100%; justify-content: center; }
+        .certification-row:hover { transform: translateY(-4px) translateX(0); }
+    }
 </style>
 
 @code {
     List<string> Categories = new() { "Web", "C#", "Python", "Games", "VR", "C++" };
     List<Project> Projects = new();
+    List<Certification> Certifications = new();
 
     protected override void OnInitialized()
     {
@@ -270,6 +353,16 @@
         // C++
         Projects.Add(new Project { Title = "ReadsProfiler", Category = "C++", Description = "Faculty project for hosting a personal digital library.", ImageUrl = "images/cpp/readsprofiler.webp", GithubUrl = "https://github.com/raresmac/ReadsProfiler", Tags = new() { "C++", "Graphics", "Books" } });
         Projects.Add(new Project { Title = "Electronic Circuits", Category = "C++", Description = "Creation and editing tool for electronic circuits.", ImageUrl = "images/cpp/electronic_circuits.webp", GithubUrl = "https://github.com/raresmac/Electronic_Circuits", Tags = new() { "C++", "Graphics", "Electronics" } });
+
+        // CERTIFICATIONS & COURSES
+        Certifications.Add(new Certification
+        {
+            Title = "A Complete Guide to Game Design",
+            Organization = "edX",
+            DateString = "2026/05/18",
+            CredentialUrl = "https://courses.edx.org/certificates/da019d67603443bfae8c80069dd78086",
+            Skills = new() { "Game Design", "Gaming" }
+        });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
