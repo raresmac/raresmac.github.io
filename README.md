@@ -8,7 +8,7 @@ This is the source code for my professional portfolio, hosted at [raresmac.githu
 
 The site is designed to be more than just a resume—it is a showcase of digital architecture, featuring high-end UI/UX patterns usually reserved for native desktop applications.
 
-## 🛠 Tech Stack & Architecture
+## Tech Stack & Architecture
 
 - **Frontend Framework:** Blazor WebAssembly (.NET 9)
 - **UI Library:** MudBlazor (Material Design)
@@ -17,15 +17,15 @@ The site is designed to be more than just a resume—it is a showcase of digital
   - **3D Wheel System:** Mathematical coordinate mapping for immersive project navigation.
   - **Glassmorphism Layering:** Deep-blur CSS logic for high-end aesthetic depth.
 
-## 📂 Featured Projects
+## Featured Projects
 - **Immersive VR:** *Memento Vivere* - VR comfort mechanics showcase.
 - **Low-Level Engineering:** C++ ReadsProfiler & Electronic Circuit designers.
 - **Web Architectures:** Lools, FM26 Tactics and BalatroHub (Blazor WASM).
 - **Machine Learning:** LOL Predictor (Python Neural Networks).
 
-## 🚀 Deployment
+## Deployment
 Automated via **GitHub Actions**. Every push to `main` triggers a headless .NET build, asset optimization, and deployment to GitHub Pages.
 
 ---
-📫 **Contact:** [raresmac1@gmail.com](mailto:raresmac1@gmail.com)  
-🔗 **LinkedIn:** [rares-stefan-macovei](https://linkedin.com/in/rares-stefan-macovei-0220541b5)
+**Contact:** [raresmac1@gmail.com](mailto:raresmac1@gmail.com)  
+**LinkedIn:** [rares-stefan-macovei](https://linkedin.com/in/rares-stefan-macovei-0220541b5)
