@@ -1,4 +1,4 @@
-﻿namespace raresmac.github.io.Models
+namespace raresmac.github.io.Models
 {
     public class Project
     {

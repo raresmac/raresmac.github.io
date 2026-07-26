@@ -1,4 +1,7 @@
 @page "/"
+@using raresmac.github.io.Models
+@using raresmac.github.io.Services
+@inject IPortfolioService PortfolioService
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject IJSRuntime JSRuntime
@@ -320,51 +323,9 @@
 </style>
 
 @code {
-    List<string> Categories = new() { "Web", "C#", "Python", "Games", "VR", "C++" };
-    List<Project> Projects = new();
-    List<Certification> Certifications = new();
-
-    protected override void OnInitialized()
-    {
-        // WEB
-        Projects.Add(new Project { Title = "Lools", Category = "Web", Description = "Master the Rift with professional-grade cooldown management.", ImageUrl = "images/web/lools.webp", GithubUrl = "https://github.com/raresmac/Lools", ExternalUrl = "https://raresmac.github.io/Lools/", Tags = new() { "Web", "Blazor", "C#" } });
-        Projects.Add(new Project { Title = "FM26 Tactics", Category = "Web", Description = "Master the pitch with the world's best tactical setups.", ImageUrl = "images/web/fm26-tactics.webp", GithubUrl = "https://github.com/raresmac/FM26-Tactics", ExternalUrl = "https://raresmac.github.io/FM26-Tactics/", Tags = new() { "Web", "Blazor", "C#" } });
-        Projects.Add(new Project { Title = "BalatroHub", Category = "Web", Description = "This is the ultimate curated repository for mastering the world's most addictive roguelike poker.", ImageUrl = "images/web/balatrohub.webp", GithubUrl = "https://github.com/raresmac/BalatroHub", ExternalUrl = "https://raresmac.github.io/BalatroHub/", Tags = new() { "Web", "Blazor", "C#" } });
-        Projects.Add(new Project { Title = "Stitcherina", Category = "Web", Description = " Turn memories into thread. Cozy pattern creator & pixel editor for tapestry and cross-stitch lovers.", ImageUrl = "images/web/stitcherina.webp", GithubUrl = "https://github.com/raresmac/Stitcherina", ExternalUrl = "https://raresmac.github.io/Stitcherina/", Tags = new() { "Web", "Blazor", "C#" } });
-        
-        // C#
-        Projects.Add(new Project { Title = "PaintGuesser", Category = "C#", Description = "PaintGuesser allows you to master all the details of the most important paintings in history.", ImageUrl = "images/cs/paintguesser.webp", GithubUrl = "https://github.com/raresmac/PaintGuesser", ExternalUrl = "https://play.google.com/store/apps/details?id=com.NamelessRose.PaintGuesser", Tags = new() { "C#", "Unity", "Android" } });
-        Projects.Add(new Project { Title = "PokerUltimateCalc", Category = "C#", Description = "A high-performance Texas Hold'em Probability Engine and Terminal Simulator written in C# using bitmasking, combinatorial analysis, and Monte Carlo simulations.", ImageUrl = "images/cs/pokerultimatecalc.webp", GithubUrl = "https://github.com/raresmac/PokerUltimateCalc", Tags = new() { "C#", "Windows" } });
-        Projects.Add(new Project { Title = "ARt", Category = "C#", Description = "An AR application for Android for recognizing paintings written in C# and Unity.", ImageUrl = "images/cs/art.webp", GithubUrl = "https://github.com/raresmac/ARt", Tags = new() { "C#", "Android", "AR" } });
-        
-        // PYTHON
-        Projects.Add(new Project { Title = "OverAchiever", Category = "Python", Description = "An automated video game tracker that fetches metadata and playtimes from Steam and HowLongToBeat.", ImageUrl = "images/python/overachiever.webp", GithubUrl = "https://github.com/raresmac/OverAchiever", Tags = new() { "Python", "FastAPI", "PostgreSQL", "Docker", "Gaming" } });
-        Projects.Add(new Project { Title = "LOL Predictor", Category = "Python", Description = "Neural network trained to predict match outcomes based on lineups.", ImageUrl = "images/python/lol_predictor.webp", GithubUrl = "https://github.com/raresmac/LOL_Predictor", Tags = new() { "Python", "ML", "Gaming" } });
-        Projects.Add(new Project { Title = "PyChess", Category = "Python", Description = "A simple chess game made with PyGame.", ImageUrl = "images/python/pychess.webp", GithubUrl = "https://github.com/raresmac/PyChess", Tags = new() { "Python", "Chess", "Gaming" } });
-        Projects.Add(new Project { Title = "ScanItUp", Category = "Python", Description = "Document scanner that parses text from images.", ImageUrl = "images/python/scanitup.webp", GithubUrl = "https://github.com/raresmac/ScanItUp", Tags = new() { "Python", "Utilities" } });
-        
-        // Games
-        Projects.Add(new Project { Title = "Cabineer", Category = "Games", Description = "A card game available on itch.io.", ImageUrl = "images/games/cabineer.webp", ExternalUrl = "https://raresmac.itch.io/cabineer", Tags = new() { "Games", ".NET", "C#" } });
-        Projects.Add(new Project { Title = "Dartsbox", Category = "Games", Description = "DartsBox is a multiplayer darts game for s&box. You can play 501 with friends using pro rules like double-outs, having a bunch of customizable options. The aiming takes actual skill, so you have to be precise when trying to hit triples or finish a game.", ImageUrl = "images/games/dartsbox.webp", ExternalUrl = "https://sbox.game/namelessrose/dartsbox", Tags = new() { "Games", "C#", "s&box" } });
-        Projects.Add(new Project { Title = "Horsebox", Category = "Games", Description = "HORSEBOX is a 2D pixel-art incremental horse betting game. Manage sports betting terminals, execute hands-on paddock chores, and unlock elite security clearances to climb from a paddock dishwasher to a high-rolling sportsbook tycoon.", ImageUrl = "images/games/horsebox.webp", ExternalUrl = "https://sbox.game/namelessrose/horsebox", Tags = new() { "Games", "C#", "s&box" } });
-
-        // VR
-        Projects.Add(new Project { Title = "Memento Vivere", Category = "VR", Description = "VR game showcasing diverse mechanics and comfort protections.", ImageUrl = "images/vr/memento_vivere.webp", VideoId = "LEZrbjUFSUQ", Tags = new() { "VR", "Unity", "C#" } });
-        
-        // C++
-        Projects.Add(new Project { Title = "ReadsProfiler", Category = "C++", Description = "Faculty project for hosting a personal digital library.", ImageUrl = "images/cpp/readsprofiler.webp", GithubUrl = "https://github.com/raresmac/ReadsProfiler", Tags = new() { "C++", "Graphics", "Books" } });
-        Projects.Add(new Project { Title = "Electronic Circuits", Category = "C++", Description = "Creation and editing tool for electronic circuits.", ImageUrl = "images/cpp/electronic_circuits.webp", GithubUrl = "https://github.com/raresmac/Electronic_Circuits", Tags = new() { "C++", "Graphics", "Electronics" } });
-
-        // CERTIFICATIONS & COURSES
-        Certifications.Add(new Certification
-        {
-            Title = "A Complete Guide to Game Design",
-            Organization = "edX",
-            DateString = "2026/05/18",
-            CredentialUrl = "https://courses.edx.org/certificates/da019d67603443bfae8c80069dd78086",
-            Skills = new() { "Game Design", "Gaming" }
-        });
-    }
+    IReadOnlyList<string> Categories => PortfolioService.GetCategories();
+    IReadOnlyList<Project> Projects => PortfolioService.GetProjects();
+    IReadOnlyList<Certification> Certifications => PortfolioService.GetCertifications();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -449,7 +410,7 @@
         }
     }
 
-    string GetIcon(string cat) => cat switch { "Web" => Icons.Material.Filled.Language, "C#" => Icons.Custom.Brands.Microsoft, "Games" => Icons.Material.Filled.SportsEsports, "C++" => Icons.Material.Filled.Code, "Python" => Icons.Material.Filled.Code, "VR" => Icons.Material.Filled.ViewInAr, _ => Icons.Material.Filled.Code };
+    string GetIcon(string cat) => cat switch { "Web" => Icons.Material.Filled.Language, "C#" => Icons.Custom.Brands.Microsoft, "Games" => Icons.Material.Filled.SportsEsports, "JS" => Icons.Material.Filled.Javascript, "Typescript" => Icons.Material.Filled.Code, "C++" => Icons.Material.Filled.Code, "Python" => Icons.Material.Filled.Code, "VR" => Icons.Material.Filled.ViewInAr, _ => Icons.Material.Filled.Code };
     async Task StepScroll(string category, int dir) => await JSRuntime.InvokeVoidAsync("window.glideTo", $"scroll-{category}", dir);
     async Task SmartFocusAndOpen(Project proj, string category) { await JSRuntime.InvokeVoidAsync("window.centerOnElement", $"scroll-{category}", proj.Title); await OpenDetails(proj); }
     async Task ScrollTo(string id) => await JSRuntime.InvokeVoidAsync("eval", $"document.getElementById('{id}').scrollIntoView({{behavior: 'smooth'}})");
